@@ -2,16 +2,16 @@ import numpy as np
 
 def generate_cosine_signal(N, frequency):
     """Косинусный"""
-    n = np.arange(N)
+    n = np.arange(N) # 0-63
     return np.cos(2 * np.pi * frequency * n / N)
 
 def generate_constant_signal(N, value):
     """Постоянн"""
-    return np.full(N, value)
+    return np.full(N, value) # 64 x 1
 
 def generate_shifted_delta_signal(N, shift):
     """Дельта (сквад)"""
-    signal = np.zeros(N)
+    signal = np.zeros(N) # N x 0
     signal[shift] = 1
     return signal
 
