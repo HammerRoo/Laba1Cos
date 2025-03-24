@@ -1,18 +1,37 @@
 import numpy as np
+import time
 
 def compute_dft(signal):
+    start_time = time.time()
+
     N = len(signal)
     S = np.zeros(N, dtype=complex)
     for k in range(N):
-        S[k] = np.sum(signal * np.exp(-2j * np.pi * k * np.arange(N) / N))
+        S[k] = 0  # для суммы
+        for n in range(N):
+            exponent = -2j * np.pi * k * n / N # считаем по формуле
+            S[k] += signal[n] * np.exp(exponent) # заносим в сумму
+
+    execution_time = time.time() - start_time
+    print(f"ДПФ: {execution_time:.6f} сек.")
     return S
 
-def compute_idft(S):
-    N = len(S)
-    signal = np.zeros(N, dtype=complex)
+def compute_idft(signal):
+    start_time = time.time()
+
+    N = len(signal)
+    S = np.zeros(N, dtype=complex)
+    
     for n in range(N):
-        signal[n] = np.sum(S * np.exp(2j * np.pi * n * np.arange(N) / N)) / N
-    return signal
+        S[n] = 0
+        for k in range(N):
+            exponent = 2j * np.pi * k * n / N
+            S[n] += signal[k] * np.exp(exponent)
+        S[n] /= N
+
+    execution_time = time.time() - start_time
+    print(f"ОДПФ: {execution_time:.6f} сек.")
+    return S
 
 # def compute_dft_trig(signal):
 #     N = len(signal)

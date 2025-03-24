@@ -64,7 +64,6 @@ def generate_and_save_signal():
     N = int(input("Введите длину сигнала (N): "))
     signal = generate_signal(N, "random")
     save_signal_to_file(signal, ORIGINAL_SIGNAL_FILE)
-    print(f"Сигнал сохранён в файл {ORIGINAL_SIGNAL_FILE}.")
 
 def display_current_signal():
     signal = load_signal_from_file(ORIGINAL_SIGNAL_FILE)
@@ -75,13 +74,11 @@ def perform_dft_on_signal():
     signal = load_signal_from_file(ORIGINAL_SIGNAL_FILE)
     dft_result = compute_dft(signal)
     save_dft_to_file(dft_result, DFT_FILE)
-    print(f"Результат ДПФ сохранён в файл {DFT_FILE}.")
 
 def perform_idft_on_dft():
     dft_result = load_dft_from_file(DFT_FILE)
     idft_result = compute_idft(dft_result)
     save_signal_to_file(idft_result, IDFT_FILE)
-    print(f"Результат ОДПФ сохранён в файл {IDFT_FILE}.")
 
 def calculate_spectra_for_dft():
     dft_result = load_dft_from_file(DFT_FILE)
