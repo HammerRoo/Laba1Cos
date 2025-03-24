@@ -1,16 +1,13 @@
 import numpy as np
 
 def generate_cosine_signal(N, frequency):
-    """Косинусный"""
     n = np.arange(N) # 0-63
     return np.cos(2 * np.pi * frequency * n / N)
 
 def generate_constant_signal(N, value):
-    """Постоянн"""
     return np.full(N, value) # 64 x 1
 
 def generate_shifted_delta_signal(N, shift):
-    """Дельта (сквад)"""
     signal = np.zeros(N) # N x 0
     signal[shift] = 1
     return signal
@@ -39,7 +36,7 @@ def print_signal_and_spectra(title, signal, amplitude_spectrum, phase_spectrum):
     print("\nФазовый спектр (ϕ(k)):")
     print(np.round(phase_spectrum, 3))
 
-N = 64
+N = 64 # длина сигнала
 frequency = 5  #  для косинусного сигнала
 constant_value = 1  # для постоянного сигнала
 delta_shift = 16  # для дельта-импульса
