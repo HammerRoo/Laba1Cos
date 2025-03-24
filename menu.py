@@ -133,8 +133,8 @@ def perform_operations_on_signals():
     
     if signal_choice == "1":
         signal = load_signal_from_file(CONSTANT_SIGNAL_FILE)
-        S = compute_dft(signal)
-        S_no_dc = remove_dc_component(S)
+        #S = compute_dft(signal)
+        S_no_dc = remove_dc_component(signal)
         #signal_no_dc = compute_idft(S_no_dc)
         save_signal_to_file(S_no_dc, "constant_signal_no_dc.txt")
         print("Постоянная составляющая обнулена. Результат сохранён в файл constant_signal_no_dc.txt.")
@@ -145,6 +145,7 @@ def perform_operations_on_signals():
         
         signal = load_signal_from_file(signal_file)
         S = compute_dft(signal)
+        amplitude_spectrum, phase_spectrum = compute_amplitude_phase_spectra(S)
         
         print("\n--- Выбор операции ---")
         print("1. Обнулить амплитуды первых 10 гармоник")
@@ -153,18 +154,33 @@ def perform_operations_on_signals():
         operation_choice = input("Выберите операцию: ")
         
         if operation_choice == "1":
-            S_zero_harmonics = zero_first_10_harmonics(S)
-            signal_zero_harmonics = compute_idft(S_zero_harmonics)
-            output_file = f"{signal_name.lower().replace(' ', '_')}_zero_harmonics.txt"
-            save_signal_to_file(signal_zero_harmonics, output_file)
-            print(f"Амплитуды первых 10 гармоник обнулены. Результат сохранён в файл {output_file}.")
+            modified_amplitude = amplitude_spectrum.copy()
+            modified_amplitude[:10] = 0
+            
+            print("Исходный амплитудный спектр:")
+            print(np.round(amplitude_spectrum, 3))
+            print("Изменённый амплитудный спектр:")
+            print(np.round(modified_amplitude, 3))
+
+            #modified_S = modified_amplitude * np.exp(1j * phase_spectrum)
+            #signal_modified = compute_idft(modified_S)
+            #output_file = f"{signal_name}_zero_harmonics.txt"
+            #save_signal_to_file(signal_modified, output_file)
+            #print(f"Амплитуды первых 10 гармоник обнулены. Результат сохранён в файл {output_file}.")
         
         elif operation_choice == "2":
-            S_shifted = shift_amplitude_spectrum(S, 9)
-            #signal_shifted = compute_idft(S_shifted)
-            output_file = f"{signal_name.lower().replace(' ', '_')}_shifted_amplitude.txt"
-            save_signal_to_file(S_shifted, output_file)
-            print(f"Циклический сдвиг амплитудного спектра выполнен. Результат сохранён в файл {output_file}.")
+            shifted_amplitude = np.roll(amplitude_spectrum, 9)
+            
+            print("Исходный амплитудный спектр:")
+            print(np.round(amplitude_spectrum, 3))
+            print("Изменённый амплитудный спектр:")
+            print(np.round(modified_amplitude, 3))
+
+            #modified_S = shifted_amplitude * np.exp(1j * phase_spectrum)
+            #signal_modified = compute_idft(modified_S)
+            #output_file = f"{signal_name}_shifted_amplitude.txt"
+            #save_signal_to_file(signal_modified, output_file)
+            #print(f"Циклический сдвиг амплитудного спектра выполнен. Результат сохранён в файл {output_file}.")
         
         else:
             print("Неверный выбор операции.")
