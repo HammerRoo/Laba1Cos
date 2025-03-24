@@ -160,10 +160,10 @@ def perform_operations_on_signals():
             print(f"Амплитуды первых 10 гармоник обнулены. Результат сохранён в файл {output_file}.")
         
         elif operation_choice == "2":
-            S_shifted = shift_amplitude_spectrum(S, 9)  # Сдвиг амплитудного спектра
-            signal_shifted = compute_idft(S_shifted)
+            S_shifted = shift_amplitude_spectrum(S, 9)
+            #signal_shifted = compute_idft(S_shifted)
             output_file = f"{signal_name.lower().replace(' ', '_')}_shifted_amplitude.txt"
-            save_signal_to_file(signal_shifted, output_file)
+            save_signal_to_file(S_shifted, output_file)
             print(f"Циклический сдвиг амплитудного спектра выполнен. Результат сохранён в файл {output_file}.")
         
         else:
